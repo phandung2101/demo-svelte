@@ -1,9 +1,23 @@
 <script>
-    export let data;
+  let form = $state({
+    username: "",
+    email: "",
+    password: "",
+    repassword: "",
+  });
 
-    $: title = data.title;
+  function submitForm() {
+    console.log($state.snapshot(form));
+  }
 </script>
 
-<h1>About this site</h1>
-<p>{title}</p>
-<a href="/">Home</a>
+<p>Username</p>
+<input type="text" value={form.username} onchange={event => {form.username = event.target.value}}/>
+<p>Email</p>
+<input type="email" value={form.email} />
+<p>Password</p>
+<input type="password" value={form.password} />
+<p>Re-enter password</p>
+<input type="password" value={form.repassword} />
+
+<button onclick={() => submitForm()}>Register</button>
