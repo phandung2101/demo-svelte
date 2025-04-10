@@ -1,23 +1,52 @@
 <script>
-  let form = $state({
-    username: "",
-    email: "",
-    password: "",
-    repassword: "",
-  });
+  let email = $state("");
+  let password = $state("");
+  let repassword = $state("");
+  let isLoading = $state(false);
 
-  function submitForm() {
-    console.log($state.snapshot(form));
+  function handleLogin() {
+    console.log({
+      email,
+      password,
+      repassword,
+    });
   }
 </script>
 
-<p>Username</p>
-<input type="text" value={form.username} onchange={event => {form.username = event.target.value}}/>
-<p>Email</p>
-<input type="email" value={form.email} />
-<p>Password</p>
-<input type="password" value={form.password} />
-<p>Re-enter password</p>
-<input type="password" value={form.repassword} />
+<form onsubmit={handleLogin}>
+  <div>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      bind:value={email}
+      disabled={isLoading}
+      placeholder="Nhập email của bạn"
+    />
+  </div>
 
-<button onclick={() => submitForm()}>Register</button>
+  <div>
+    <label for="password">Mật khẩu:</label>
+    <input
+      type="password"
+      id="password"
+      bind:value={password}
+      disabled={isLoading}
+      placeholder="Nhập mật khẩu"
+    />
+  </div>
+
+  <div>
+    <label for="repassword">Nhập lại mật khẩu:</label>
+    <input
+      type="password"
+      id="repassword"
+      bind:value={repassword}
+      disabled={isLoading}
+      placeholder="Nhập mật khẩu"
+    />
+  </div>
+  <button type="submit" disabled={isLoading}>
+    {isLoading ? "Đang xử lý..." : "Đăng Nhập"}
+  </button>
+</form>
