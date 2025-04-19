@@ -1,15 +1,16 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { signup } from '$lib/services/authService';
+
 	let email = $state('');
+	let username = $state('');
 	let password = $state('');
 	let repassword = $state('');
 	let isLoading = $state(false);
 
-	function handleSignUp() {
-		console.log({
-			email,
-			password,
-			repassword
-		});
+	async function handleSignUp() {
+		const res = await signup(email, username, password);
+		if (res.status == 201) goto('sign-in');
 	}
 </script>
 
@@ -24,6 +25,15 @@
 				bind:value={email}
 				disabled={isLoading}
 				placeholder="Enter your email"
+			/>
+
+			<label for="username" class="label">Username</label>
+			<input
+				class="input"
+				type="text"
+				bind:value={username}
+				disabled={isLoading}
+				placeholder="Enter your username"
 			/>
 
 			<label for="password" class="label">Password</label>
