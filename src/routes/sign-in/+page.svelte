@@ -4,10 +4,13 @@
 
 	let username = $state('');
 	let password = $state('');
+	let errorMessage = $state('');
 
 	async function handleSignIn() {
 		const res = await signin(username, password);
-		console.log(res.data);
+		if (res.status == 200) goto('/');
+		if (res.status == 409) errorMessage = "Password isn't correct";
+		if (res.status == 404) errorMessage = 'User not existed';
 	}
 
 	function onClickSignUp() {
@@ -21,15 +24,26 @@
 			<legend class="fieldset-legend">Sign in</legend>
 
 			<label for="text" class="label">Username</label>
-			<input type="text" class="input" placeholder="Enter your username" bind:value={username} />
+			<input
+				type="text"
+				class="input"
+				required
+				placeholder="Enter your username"
+				bind:value={username}
+			/>
 
 			<label for="password" class="label">Password</label>
 			<input
 				type="password"
 				class="input"
+				required
 				placeholder="Enter your password"
 				bind:value={password}
 			/>
+
+			{#if errorMessage != ''}
+				<div class="text-error">{errorMessage}</div>
+			{/if}
 
 			<button type="submit" class="btn btn-primary mt-4">Sign in</button>
 			<button
