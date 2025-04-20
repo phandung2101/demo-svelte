@@ -1,25 +1,19 @@
 <script>
 	import { LayoutDashboard, Repeat, BarChart2, Settings } from "@lucide/svelte";
+
+	const menuItems = [
+		{ Icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+		{ Icon: Repeat, label: "Transaction", href: "/transaction" },
+		{ Icon: BarChart2, label: "Report", href: "/report" },
+		{ Icon: Settings, label: "Setting", href: "/setting" }
+	];
 </script>
 
 <aside class="w-64 bg-base-100 min-h-screen p-4 flex flex-col justify-start space-y-2">
-	<a href="/dashboard" class="flex items-center gap-2">
-		<LayoutDashboard size="16" />
-		<span class="grow">Dashboard</span>
-	</a>
-
-	<a href="/transaction" class="flex items-center gap-2">
-		<Repeat size="16" />
-		<span class="grow">Transaction</span>
-	</a>
-
-	<a href="/report" class="flex items-center gap-2">
-		<BarChart2 size="16" />
-		<span class="grow">Report</span>
-	</a>
-
-	<a href="/setting" class="flex items-center gap-2">
-		<Settings size="16" />
-		<span class="grow">Setting</span>
-	</a>
+	{#each menuItems as { Icon, label, href }}
+		<a href={href} class="flex items-center gap-2">
+			<Icon size="16" />
+			<span class="grow">{label}</span>
+		</a>
+	{/each}
 </aside>
