@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import axios from 'axios';
 
 const api = axios.create({
@@ -9,7 +10,6 @@ const api = axios.create({
   withCredentials: true
 });
 
-// Optional: thêm interceptor để tự động đính token nếu cần
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
@@ -17,17 +17,18 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  respose => response,
+  response => response,
   error => {
     const response = error.response;
-    // Kiểm tra xem có response không và status code là gì
     if (response) {
       const { status, data } = response;
       
       switch (status) {
+        case 401:
+          localStorage.removeItem('token');
+          goto('/sign-in');
+          return Promise.resolve(error);
         case 400:
-          console.log('Lỗi Bad Request:', data);
-          // Xử lý lỗi 400 tại đây thay vì ném lỗi
           return Promise.resolve({ 
             isError: true, 
             status: 400, 
@@ -36,8 +37,6 @@ api.interceptors.response.use(
           });
           
         case 404:
-          console.log('Lỗi Not Found:', data);
-          // Xử lý lỗi 404 tại đây
           return Promise.resolve({ 
             isError: true, 
             status: 404, 
@@ -46,8 +45,6 @@ api.interceptors.response.use(
           });
           
         case 409:
-          console.log('Lỗi Conflict:', data);
-          // Xử lý lỗi 409 tại đây
           return Promise.resolve({ 
             isError: true, 
             status: 409, 
@@ -56,12 +53,10 @@ api.interceptors.response.use(
           });
           
         default:
-          // Trả về các lỗi khác như bình thường
           return Promise.reject(error);
       }
     }
     
-    // Nếu không có response (lỗi mạng, timeout, v.v.)
     return Promise.reject(error);
   }
 )

@@ -17,6 +17,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^0.501.0",
 		"@tailwindcss/vite": "^4.0.17",
 		"axios": "^1.8.4",
 		"daisyui": "^5.0.9",

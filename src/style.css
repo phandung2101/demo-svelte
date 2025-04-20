@@ -1,7 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+  font-family: 'Public Sans', sans-serif;
+}
+
 @plugin "daisyui/theme" {
-  name: "lofi";
+  name: "yezzy";
   default: false;
   prefersdark: false;
   color-scheme: "light";
