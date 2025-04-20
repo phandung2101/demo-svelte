@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 border-b border-gray-200">
 	<div class="navbar-start">
 		<div role="button" class="btn btn-ghost btn-circle">
 			<svg
@@ -16,9 +16,6 @@
 				/>
 			</svg>
 		</div>
-	</div>
-	<div class="navbar-center">
-		<a class="btn btn-ghost text-xl">daisyUI</a>
 	</div>
 	<div class="navbar-end">
 		<div class="dropdown dropdown-end">
