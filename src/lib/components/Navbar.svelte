@@ -1,3 +1,26 @@
+<script>
+    import {getUserGroups} from "$lib/services/groupService.js";
+    import {onMount} from "svelte";
+    import Dropdown from "$lib/components/Dropdown.svelte";
+
+    let groups = $state([]);
+    let currentGroup = $state(null);
+
+    onMount(async () => {
+        try {
+            const res = await getUserGroups();
+            groups = res.data;
+            if (groups.length > 0) currentGroup = groups[0];
+        } catch (e) {
+            console.error("Failed to load groups:", e);
+        }
+    });
+
+    function onChangeGroup(group) {
+        currentGroup = group;
+    }
+</script>
+
 <div class="navbar bg-base-100 border-b border-gray-200">
     <div class="navbar-start">
         <div role="button" class="btn btn-ghost btn-circle">
@@ -18,26 +41,7 @@
         </div>
     </div>
     <div class="navbar-center">
-        <div class="dropdown dropdown-start">
-            <div tabindex="0" role="button" class="btn btn-ghost bg-base-100">
-                <span>Current group</span>
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 ml-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Current group</a></li>
-                <li><a>Group 1</a></li>
-                <li><a>Group 2</a></li>
-            </ul>
-        </div>
-
+        <Dropdown onClick={onChangeGroup} items={groups} currentItem={currentGroup}></Dropdown>
     </div>
     <div class="navbar-end">
         <div class="dropdown dropdown-end">
